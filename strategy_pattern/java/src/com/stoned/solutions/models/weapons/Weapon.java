@@ -1,4 +1,7 @@
 package com.stoned.solutions.models.weapons;
 
-public interface WeaponInterface {
+public interface Weapon {
+
+    int attack();
+
 }
