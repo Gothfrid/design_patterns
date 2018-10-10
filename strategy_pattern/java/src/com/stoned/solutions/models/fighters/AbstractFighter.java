@@ -1,35 +1,45 @@
 package com.stoned.solutions.models.fighters;
 
-import com.stoned.solutions.models.weapons.Weapon;
+import com.stoned.solutions.strategies.attack.AttackBehavior;
 
 public abstract class AbstractFighter {
 
-    private Weapon weapon;
+    private AttackBehavior attackBehavior;
     private int healthPoints;
-    private int strengthPoints;
-    private int agilePoints;
+    private int staminaPoints;
+    private int weaponDamage = 0;
+    private String name = "UNKNOWN";
+    private int restoringFactor = 0;
 
 
     public void attack(AbstractFighter enemy) {
-        int damage = getWeapon().attack();
-        enemy.takeDamage(damage);
+        AttackProfile attackProfile = attackBehavior.attack(weaponDamage);
+        if (staminaPoints >= attackProfile.getExhaust()) {
+            System.out.println(getName() + " attacked with - " + attackProfile.getDamage());
+            staminaPoints -= attackProfile.getExhaust();
+            enemy.takeDamage(attackProfile.getDamage());
+        }
     }
 
 
-    private void takeDamage(int damage) {
+    private void takeDamage(long damage) {
         this.healthPoints -= damage;
+    }
+
+    public void restoreStamina() {
+        this.staminaPoints += restoringFactor;
     }
 
     public boolean isAlive() {
         return this.healthPoints > 0;
     }
 
-    public Weapon getWeapon() {
-        return weapon;
+    public boolean isExhaust() {
+        return this.staminaPoints <= 0;
     }
 
-    public void setWeapon(Weapon weapon) {
-        this.weapon = weapon;
+    public void setAttackBehavior(AttackBehavior attackBehavior) {
+        this.attackBehavior = attackBehavior;
     }
 
     public int getHealthPoints() {
@@ -40,20 +50,36 @@ public abstract class AbstractFighter {
         this.healthPoints = healthPoints;
     }
 
-    public int getStrengthPoints() {
-        return strengthPoints;
+    public int getStaminaPoints() {
+        return staminaPoints;
     }
 
-    public void setStrengthPoints(int strengthPoints) {
-        this.strengthPoints = strengthPoints;
+    public void setStaminaPoints(int staminaPoints) {
+        this.staminaPoints = staminaPoints;
     }
 
-    public int getAgilePoints() {
-        return agilePoints;
+    public int getWeaponDamage() {
+        return weaponDamage;
     }
 
-    public void setAgilePoints(int agilePoints) {
-        this.agilePoints = agilePoints;
+    public void setWeaponDamage(int weaponDamage) {
+        this.weaponDamage = weaponDamage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRestoringFactor() {
+        return restoringFactor;
+    }
+
+    public void setRestoringFactor(int restoringFactor) {
+        this.restoringFactor = restoringFactor;
     }
 }
 

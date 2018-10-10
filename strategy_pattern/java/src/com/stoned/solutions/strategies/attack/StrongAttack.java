@@ -1,19 +1,19 @@
 package com.stoned.solutions.strategies.attack;
 
+import com.stoned.solutions.common.Weapons;
 import com.stoned.solutions.models.fighters.AttackProfile;
 
 import java.util.Random;
 
-public class NormalAttack implements AttackBehavior{
+public class StrongAttack implements AttackBehavior{
 
-    static final double EXHAUST = 1;
-    static final double ATTACK_MULTIPLIER = 1;
+    public static final double EXHAUST_MULTIPLIER = 2;
+    public static final double ATTACK_MULTIPLIER = 2;
 
 
     @Override
     public AttackProfile attack(int weaponDamage) {
-        Random rand = new Random();
-        int damage = rand.nextInt(weaponDamage);
-        return new AttackProfile(Math.round(damage*EXHAUST), Math.round(weaponDamage*EXHAUST));
+        double damage = Weapons.hitCalculator(weaponDamage);
+        return new AttackProfile(Math.round(damage*ATTACK_MULTIPLIER), Math.round(weaponDamage*EXHAUST_MULTIPLIER));
     }
 }

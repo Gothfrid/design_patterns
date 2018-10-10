@@ -1,18 +1,9 @@
-package com.stoned.solutions.models.attack;
+package com.stoned.solutions.strategies.attack;
 
-import java.util.Random;
+import com.stoned.solutions.models.fighters.AttackProfile;
 
 public interface AttackBehavior {
 
-    static final int EXHAUST = 5;
-
-    default public int attack() {
-        Random rand = new Random();
-        return rand.nextInt(10);
-    }
-
-    default public int exhaust() {
-        return EXHAUST;
-    }
+    AttackProfile attack(int weaponDamage);
 
 }
